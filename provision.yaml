@@ -85,24 +85,24 @@ vars:
         path: "{{ kube_dir }}"
         state: directory
         mode: '0700'
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
 
     - name: Fix ownership and permissions on ~/.kube recursively
       file:
         path: "{{ kube_dir }}"
         state: directory
         recurse: yes
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
         mode: 'u=rwX,go='  # Owner rwx, everyone else nothing
 
     - name: Ensure ~/.kube/config is private if it exists
       file:
         path: "{{ kube_dir }}/config"
         mode: '0600'
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
       ignore_errors: true  # OK if file doesn't exist yet
 
     # Optional: Add more tools here later (helm, eksctl, etc.)
