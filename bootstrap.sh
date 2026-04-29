@@ -14,8 +14,8 @@ fail() { echo -e "${RED}[-]${NC} $1"; exit 1; }
 
 command -v curl >/dev/null 2>&1 || { warn "curl not found, installing..."; sudo apt-get update && sudo apt-get install -y curl; }
 
-PLAYBOOK_URL='https://raw.githubusercontent.com/ju-nine/vm-provision-aws-eks/main/provision.yaml'
-INVENTORY_URL='https://raw.githubusercontent.com/ju-nine/vm-provision-aws-eks/main/inventory/localhost.yml'
+PLAYBOOK_URL='https://raw.githubusercontent.com/chojuninengu/vm-provision-aws-eks/main/provision.yaml'
+INVENTORY_URL='https://raw.githubusercontent.com/chojuninengu/vm-provision-aws-eks/main/inventory/localhost.yml'
 
 WORK_DIR="$(mktemp -d)"
 trap 'rm -rf "$WORK_DIR"' EXIT

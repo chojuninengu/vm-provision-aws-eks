@@ -7,7 +7,7 @@ Ansible playbook to set up an Ubuntu 22.04 VM as a secure access point for AWS E
 Run this single command to automatically install all dependencies and configure your system:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ju-nine/vm-provision-aws-eks/main/bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/chojuninengu/vm-provision-aws-eks/main/bootstrap.sh | bash
 ```
 
 This will:
