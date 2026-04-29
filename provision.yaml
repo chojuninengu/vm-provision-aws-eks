@@ -4,10 +4,12 @@
   connection: local
   become: yes
 
-  vars:
-    install_kubectl: true
-    install_k9s: true
-    kube_dir: "{{ ansible_env.HOME }}/.kube"
+vars:
+  install_kubectl: true
+  install_k9s: true
+  target_user: "{{ lookup('env', 'SUDO_USER') | default(lookup('env', 'USER')) }}"
+  target_home: "{{ lookup('pipe', 'getent passwd ' + target_user + ' | cut -d: -f6') }}"
+  kube_dir: "{{ target_home }}/.kube"
 
   tasks:
     - name: Update apt cache
