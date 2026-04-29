@@ -10,9 +10,7 @@ log()  { echo -e "${GREEN}[+]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 fail() { echo -e "${RED}[-]${NC} $1"; exit 1; }
 
-[[ $EUID -eq 0 ]] && fail "Do not run as root. Run as a normal user with sudo access."
-
-command -v curl >/dev/null 2>&1 || { warn "curl not found, installing..."; sudo apt-get update && sudo apt-get install -y curl; }
+command -v curl >/dev/null 2>&1 || { warn "curl not found, installing..."; apt-get update && apt-get install -y curl; }
 
 PLAYBOOK_URL='https://raw.githubusercontent.com/chojuninengu/vm-provision-aws-eks/main/provision.yaml'
 INVENTORY_URL='https://raw.githubusercontent.com/chojuninengu/vm-provision-aws-eks/main/inventory/localhost.yml'
@@ -27,8 +25,8 @@ log "Checking dependencies..."
 
 if ! command -v ansible >/dev/null 2>&1; then
     warn "Ansible not found. Installing..."
-    sudo apt-get update
-    sudo apt-get install -y ansible python3-pip
+    apt-get update
+    apt-get install -y ansible python3-pip
 fi
 
 log "Downloading playbook and inventory..."
@@ -36,7 +34,10 @@ curl -fsSL "$PLAYBOOK_URL" -o provision.yaml
 curl -fsSL "$INVENTORY_URL" -o inventory.yml
 
 log "Running Ansible playbook..."
-ansible-playbook -i inventory.yml provision.yaml
+ansible-playbook -i inventory.yml \
+  -e "target_user=$(id -un)" \
+  -e "target_home=$HOME" \
+  provision.yaml
 
 log "Configuring shell for kubectl and k9s..."
 
